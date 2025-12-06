@@ -13,10 +13,10 @@
 
 #headline::after {
   content: '';
-  background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 2px, transparent 0, transparent 8px);
-  display: block;
+  background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 2.5px, transparent 0, transparent 8px);
+  display: block; 
   width: 100%;
-  margin-left: 20px;
+  margin-left: 1rem;
   right: 10px;
 }
 
