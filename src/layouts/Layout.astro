@@ -1,0 +1,39 @@
+---
+interface Props {
+    title?: string;
+    description?: string;
+    canonicalUrl?: string;
+    ogImage?: string;
+}
+
+const {
+    title = "rezn1r | Home",
+    description = "Welcome to rezn1r's personal site with my stuff, projects, updates, and add-ons.",
+    canonicalUrl = "https://reznir.dev/",
+    ogImage = "https://reznir.dev/avatar.png",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <meta name="author" content="rezn1r">
+    <title>{title}</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta name="theme-color" content="#b84c4c" />
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:image" content={ogImage}>
+    <link rel="canonical" href={canonicalUrl}>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/style/minecraft.css">
+    <link rel="stylesheet" href="/style/index.css">
+</head>
+<body>
+    <slot />
+</body>
+</html>
