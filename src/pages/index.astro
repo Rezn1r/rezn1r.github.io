@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Welcome to rezn1r's personal site with my stuff, projects, updates, and add-ons.">
-    <meta name="author" content="rezn1r">
-    <title>rezn1r | Home</title>
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="rezn1r | Home">
-    <meta property="og:description" content="Welcome to rezn1r's personal site with my stuff, projects, updates, and add-ons.">
-    <meta name="theme-color" content="#b84c4c" />
-    <meta property="og:url" content="https://reznir.dev/">
-    <meta property="og:image" content="https://reznir.dev/avatar.png">
-    <link rel="canonical" href="https://reznir.dev/">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style/minecraft.css">
-    <link rel="stylesheet" href="style/index.css">
-</head>
-<body>
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
     <header class="navbar site-header">
         <div class="container navbar-inner">
             <a class="navbar-brand" href="#top">rezn1r</a>
@@ -27,7 +12,6 @@
                 <span></span>
             </button>
             <nav id="site-nav">
-
                 <ul class="navbar-nav">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -107,7 +91,7 @@
             <hr style="margin: 40px 0;">
             <section id="contact" style="width: 1024px; max-width: 100%;">
                 <h2>Contact Me</h2>
-                <p>If you’d like to reach out, you can find me here:</p>
+                <p>If you'd like to reach out, you can find me here:</p>
                 <ul style="list-style: none; padding-left: 0;">
                     <li>Email: <a href="mailto:rezn1r@proton.me">rezn1r@proton.me</a></li>
                     <li>Discord: <a href="https://discord.com/users/1342878353949982810">@Rezn1r</a></li>
@@ -120,7 +104,6 @@
         </section>
     </main>
 
-    <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
-    <script src="scripts/main.js"></script>
-</body>
-</html>
+    <script is:inline src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
+    <script is:inline src="/scripts/main.js"></script>
+</Layout>
