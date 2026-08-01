@@ -40,6 +40,16 @@
         });
     }
 
+    document.querySelectorAll(".addon-download-count").forEach((countElement) => {
+        const downloads = Number(countElement.dataset.downloads || 0);
+        const formatted = new Intl.NumberFormat("en", {
+            notation: "compact",
+            maximumFractionDigits: 1
+        }).format(downloads);
+
+        countElement.textContent = `${formatted} downloads`;
+    });
+
     const canvas = document.getElementById("skin-viewer");
     const status = document.getElementById("viewer-status");
     const skinPath = "./skin.png";
@@ -166,7 +176,7 @@
     };
 
     skinImage.onerror = () => {
-        setStatus("Add skin.png to the site root to show your 3D Minecraft player model.");
+        setStatus("No skin.png");
     };
 
     skinImage.src = skinPath;
