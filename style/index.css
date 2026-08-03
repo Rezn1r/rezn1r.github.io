@@ -269,15 +269,16 @@ main {
 }
 
 .skills-grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .skill-group {
     background: rgba(255, 255, 255, 0.04);
     border: 3px solid #1e1e1f;
     box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    flex: 1 1 280px;
     padding: 16px;
 }
 
@@ -300,6 +301,89 @@ main {
     color: #fff;
     font-size: 0.95rem;
     padding: 6px 10px;
+}
+
+.credentials-header {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    margin: 32px 0 16px;
+}
+
+.credentials-header h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.credentials-header .button {
+    margin: 0;
+}
+
+.credentials-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.credential-card {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 3px solid #1e1e1f;
+    box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    color: #fff;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 82px 1fr;
+    min-height: 132px;
+    padding: 14px;
+    text-decoration: none;
+}
+
+.credential-card:hover,
+.credential-card:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    outline: 3px solid var(--btn-primary-inner-color);
+    outline-offset: 2px;
+    text-decoration: none;
+}
+
+.credential-image {
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid #1e1e1f;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+}
+
+.credential-image img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+.credential-title,
+.credential-meta {
+    display: block;
+}
+
+.credential-title {
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.credential-meta {
+    color: #d0d1d4;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    margin-top: 8px;
 }
 
 .footer-note {
