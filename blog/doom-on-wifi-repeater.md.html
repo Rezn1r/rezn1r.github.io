@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn on how to run DOOM inside a Cheap WiFi Repeater">
+    <meta name="author" content="rezn1r">
+    <title>Running DOOM on a WiFi Repeater | rezn1r</title>
+    <meta name="theme-color" content="#b84c4c" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style/minecraft.css">
+    <link rel="stylesheet" href="../style/index.css">
+</head>
+<body>
+    <header class="navbar site-header">
+        <div class="container navbar-inner">
+            <a class="navbar-brand" href="/">rezn1r</a>
+            <nav aria-label="Blog navigation">
+                <ul class="navbar-nav">
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#blog">Blog</a></li>
+                    <li><a href="/#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container blog-post-layout">
+            <a class="button button-secondary" href="/#blog">Back to Blog</a>
+            <article class="blog-post-card" style="margin-top: 16px;">
+                <h1 class="blog-post-title">Running DOOM on a WiFi Repeater</h1>
+                <p class="blog-post-meta">
+                    Aug 10, 2026
+                </p>
+                <div class="blog-tags" style="margin-bottom: 14px;">
+                    <span class="blog-tag">hardware</span>
+                    <span class="blog-tag">exploit</span>
+                </div>
+                <div class="blog-post-content">
+                    <p>First of all, the only reason I was able to get shell access was because of <a href="https://www.youtube.com/watch?v=KsiuA5gOl1o">this video</a> (Thanks to Low Level)</p>
+<h2>Getting Shell Access</h2>
+<p>I first needed to get shell access so I followed the video, and here is how I uploaded a custom script to enable <code>telnetd</code> </p>
+<p><img alt="A screenshot of a terminal, using cURL to send a file called &quot;script.sh&quot; to 192.168.11.1" src="images/sending_script_to_repeater.png"></p>
+<p>The script itself is saved on <code>/tmp/tmpFS</code>, We used the <code>/cgi-bin/upload.cgi</code> to upload the script. The content of the file is:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/ash</span>
+
+/usr/sbin/telnetd<span class="w"> </span>-l<span class="w"> </span>/bin/ash<span class="w"> </span>-p<span class="w"> </span><span class="m">4444</span>
+</code></pre></div>
+
+<p>Then we need to use the exploit shown in <a href="https://www.youtube.com/watch?v=KsiuA5gOl1o">this video</a> to chmod and run the script</p>
+<p><img alt="A screenshot of a terminal showing a cURL requests that chmod +x the script" src="images/chmod_the_script.png"></p>
+<p>Lastly we will run the script.sh (located in <code>/tmp/tmpFS</code>)</p>
+<p><img alt="A screenshot of a terminal showing a cURL requests that runs the script" src="images/running_the_script.png"></p>
+<p>And Ta-da! We should now be able to use <code>nc</code> to connect to the telnet, running <code>nc 192.168.11.1 4444</code> gives us the shell (as root)</p>
+<p><img alt="A screenshot showing telnet" src="images/getting_telnet.png"></p>
+<h2>Running DOOM</h2>
+<p>Now for the second part, running DOOM. We are gonna use an ASCII version of doom since I dont think we can use a display for this ¯\<em>(ツ)</em>/¯</p>
+<p>For this I compiled <a href="https://github.com/wojciech-graj/doom-ascii">doom-ascii</a> for the MIPS 74Kc</p>
+<p>Clone the repository</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/wojciech-graj/doom-ascii<span class="w">    </span>
+<span class="nb">cd</span><span class="w"> </span>doom-ascii
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Download the pre-compiled MIPS toolchain</span>
+wget<span class="w"> </span>https://musl.cc/mips-linux-muslsf-cross.tgz
+
+<span class="c1"># Extract it</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>mips-linux-muslsf-cross.tgz
+
+<span class="c1"># Add compiler to PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PWD</span><span class="s2">/mips-linux-muslsf-cross/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Then, for this part I had to ask AI on how to fix. As I am not familiar with this (Running it gives <code>Couldn't realloc lumpinfo</code>)</p>
+<p>We need to overwrite i_swap.h with MIPS Byte-Swapping</p>
+<div class="highlight"><pre><span></span><code><span class="nv">SWAP_FILE</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;i_swap.h&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39; &gt; &quot;$SWAP_FILE&quot;</span>
+<span class="s">#ifndef __I_SWAP__</span>
+<span class="s">#define __I_SWAP__</span>
+
+<span class="s">#include &lt;stdint.h&gt;</span>
+
+<span class="s">/* Force byte-swapping for Big-Endian MIPS */</span>
+<span class="s">#if defined(__GNUC__) || defined(__clang__)</span>
+<span class="s">#define SHORT(x) ((int16_t)__builtin_bswap16((uint16_t)(x)))</span>
+<span class="s">#define LONG(x)  ((int32_t)__builtin_bswap32((uint32_t)(x)))</span>
+<span class="s">#else</span>
+<span class="s">#define SHORT(x) ((int16_t)(((uint16_t)(x) &gt;&gt; 8) | ((uint16_t)(x) &lt;&lt; 8)))</span>
+<span class="s">#define LONG(x)  ((int32_t)(((uint32_t)(x) &gt;&gt; 24) | (((uint32_t)(x) &amp; 0x00FF0000) &gt;&gt; 8) | (((uint32_t)(x) &amp; 0x0000FF00) &lt;&lt; 8) | ((uint32_t)(x) &lt;&lt; 24)))</span>
+<span class="s">#endif</span>
+
+<span class="s">#endif</span>
+<span class="s">EOF</span>
+</code></pre></div>
+
+<p>And finally building it:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="nv">CC</span><span class="o">=</span>mips-linux-muslsf-gcc<span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-O2 -mips32r2 -mtune=74kc -msoft-float -static&quot;</span>
+</code></pre></div>
+
+<p><img alt="log" src="images/compiling_doom.png"></p>
+<p>and you should have your <code>doom-ascii</code> executable, the next step is getting your WAD File</p>
+<p>Now you just can find it one archive.org or just use freedoom1 </p>
+<h3>Transferring the file</h3>
+<p>Now to tranfer the executable and your WAD file, first move the 2 in a directory</p>
+<p><img alt="Tree Directory of game/" src="images/doom_tree_dir.png"></p>
+<p>Then run a local file-server using python</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+
+<p>Then go in the telnet and use <code>wget</code> to download the files from your device</p>
+<p><img alt="Wget" src="images/downloading_doom_in_device.png"></p>
+<h4>Ta-da!!! You now have DOOM</h4>
+<p>You can run it by this (or whatever you like)</p>
+<div class="highlight"><pre><span></span><code>./doom-ascii<span class="w"> </span>-scale<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+
+<p>Then zoom your terminal out, You should now be playing doom!</p>
+<p>See the following video for the full tutorial (except the compiling doom-ascii part)</p>
+<div class="video-embed">
+  <iframe src="https://www.youtube.com/embed/rIw5pOhK_O0" allowfullscreen></iframe>
+</div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        (() => {
+            const content = document.querySelector(".blog-post-content");
+            if (!content) {
+                return;
+            }
+
+            content.querySelectorAll("img").forEach((img) => {
+                if (img.closest("a")) {
+                    return;
+                }
+
+                const link = document.createElement("a");
+                link.className = "blog-post-image-link";
+                link.href = img.src;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.title = "Open image source";
+                img.parentNode.insertBefore(link, img);
+                link.append(img);
+            });
+        })();
+    </script>
+</body>
+</html>
