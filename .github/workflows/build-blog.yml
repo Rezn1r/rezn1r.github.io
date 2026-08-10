@@ -53,7 +53,8 @@ jobs:
             --exclude '.venv/' \
             --exclude '__pycache__/' \
             --exclude 'blog-src/' \
-            --exclude 'scripts/' \
+            --exclude 'scripts/build_blog.py' \
+            --exclude 'scripts/__pycache__/' \
             --exclude 'pelicanconf.py' \
             --exclude 'pyproject.toml' \
             --exclude 'uv.lock' \
