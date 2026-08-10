@@ -1,0 +1,37 @@
+AUTHOR = "rezn1r"
+SITENAME = "rezn1r"
+SITEURL = "https://rezn1r.tech"
+
+PATH = "blog-src/content"
+TIMEZONE = "Asia/Manila"
+DEFAULT_LANG = "en"
+
+THEME = "blog-src/theme"
+
+ARTICLE_PATHS = ["posts"]
+ARTICLE_URL = "{slug}.html"
+ARTICLE_SAVE_AS = "{slug}.html"
+
+PAGE_PATHS = []
+STATIC_PATHS = ["images"]
+
+DIRECT_TEMPLATES = []
+TEMPLATE_PAGES = {}
+DEFAULT_PAGINATION = False
+
+FEED_ALL_ATOM = None
+CATEGORY_FEED_ATOM = None
+TRANSLATION_FEED_ATOM = None
+AUTHOR_FEED_ATOM = None
+AUTHOR_FEED_RSS = None
+TAG_FEED_ATOM = None
+
+AUTHOR_SAVE_AS = ""
+AUTHORS_SAVE_AS = ""
+CATEGORY_SAVE_AS = ""
+CATEGORIES_SAVE_AS = ""
+TAG_SAVE_AS = ""
+TAGS_SAVE_AS = ""
+ARCHIVES_SAVE_AS = ""
+
+RELATIVE_URLS = True

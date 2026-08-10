@@ -221,6 +221,224 @@ main {
     margin-bottom: 0;
 }
 
+.blog-section {
+    margin: 32px 0 24px;
+}
+
+.blog-intro {
+    color: #d0d1d4;
+    margin-bottom: 16px;
+    max-width: 760px;
+}
+
+.blog-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.blog-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 3px solid #1e1e1f;
+    box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 240px;
+    padding: 16px;
+}
+
+.blog-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.blog-title-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.blog-title-link:hover,
+.blog-title-link:focus-visible {
+    text-decoration: underline;
+}
+
+.blog-meta {
+    color: #d0d1d4;
+    font-size: 0.9rem;
+}
+
+.blog-excerpt {
+    color: #fff;
+    flex-grow: 1;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.blog-tag {
+    background: rgba(99, 157, 82, 0.25);
+    border: 2px solid #1e1e1f;
+    box-shadow: inset 0 -4px 0 0 rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 0.85rem;
+    padding: 4px 8px;
+}
+
+.blog-card-link {
+    margin: 0;
+}
+
+.blog-loading,
+.blog-error,
+.blog-empty {
+    color: #d0d1d4;
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 6px 0;
+}
+
+.blog-post-layout {
+    margin: 0 auto;
+    max-width: 840px;
+}
+
+.blog-post-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 3px solid #1e1e1f;
+    box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    padding: 24px;
+}
+
+.blog-post-title {
+    margin: 0 0 10px;
+}
+
+.blog-post-meta {
+    color: #d0d1d4;
+    margin-bottom: 14px;
+}
+
+.blog-post-content {
+    color: #fff;
+    line-height: 1.6;
+}
+
+.blog-post-content h2,
+.blog-post-content h3,
+.blog-post-content h4 {
+    margin-top: 22px;
+}
+
+.blog-post-content p,
+.blog-post-content ul,
+.blog-post-content ol,
+.blog-post-content blockquote {
+    margin-bottom: 14px;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+    padding-left: 24px;
+}
+
+.blog-post-content img {
+    background: rgba(255, 255, 255, 0.04);
+    border: 3px solid #1e1e1f;
+    border-radius: 0 !important;
+    box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+    display: block;
+    height: auto;
+    margin: 12px 0;
+    max-width: 100%;
+    padding: 4px;
+}
+
+.blog-post-content .video-embed {
+    background: rgba(255, 255, 255, 0.04);
+    border: 3px solid #1e1e1f;
+    border-radius: 0 !important;
+    box-shadow: inset 0 -6px 0 0 rgba(0, 0, 0, 0.25), inset 3px 3px 0 rgba(255, 255, 255, 0.08);
+    margin: 12px 0 1rem;
+    padding: 4px;
+}
+
+.blog-post-content iframe {
+    border: 0;
+    border-radius: 0 !important;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+}
+
+.blog-post-content .video-embed iframe {
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+}
+
+.blog-post-content figure {
+    margin: 0 0 14px;
+}
+
+.blog-post-image-link {
+    cursor: zoom-in;
+    display: inline-block;
+    max-width: 100%;
+    text-decoration: none;
+}
+
+.blog-post-content figure img {
+    margin: 0;
+}
+
+.blog-post-content figcaption {
+    color: #d0d1d4;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.blog-post-content code {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #1e1e1f;
+    color: #f8f8f2;
+    font-family: MinecraftRegular, sans-serif;
+    padding: 1px 6px;
+}
+
+.blog-post-content pre {
+    background: rgba(0, 0, 0, 0.35);
+    border: 2px solid #1e1e1f;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    padding: 12px;
+}
+
+.blog-post-content pre code {
+    background: transparent;
+    border: 0;
+    font-family: MinecraftRegular, sans-serif;
+    padding: 0;
+}
+
+.blog-post-content blockquote {
+    border-left: 4px solid var(--primary-color);
+    color: #d0d1d4;
+    margin-left: 0;
+    padding-left: 12px;
+}
+
+.blog-post-status {
+    color: #d0d1d4;
+    margin: 12px 0 0;
+}
+
 .addon-download-count {
     color: #d0d1d4;
     font-size: 0.95rem;
@@ -525,6 +743,14 @@ main {
     .hero-actions .button {
         min-width: 0;
         width: 100%;
+    }
+
+    .blog-card-link {
+        width: 100%;
+    }
+
+    .blog-post-card {
+        padding: 18px;
     }
 
     .viewer-card {

@@ -3,6 +3,8 @@
     const navToggle = document.querySelector(".nav-toggle");
     const nav = siteHeader?.querySelector("nav");
     const mobileBreakpoint = 768;
+    const blogGrid = document.getElementById("blog-post-grid");
+    const blogManifestPath = "./blog/posts.json";
 
     function closeNav() {
         if (!siteHeader || !navToggle) {
@@ -49,6 +51,92 @@
 
         countElement.textContent = `${formatted} downloads`;
     });
+
+    function createBlogCard(post) {
+        const article = document.createElement("article");
+        article.className = "blog-card";
+
+        const title = document.createElement("h3");
+        const titleLink = document.createElement("a");
+        titleLink.className = "blog-title-link";
+        titleLink.href = post.url;
+        titleLink.textContent = post.title;
+        title.append(titleLink);
+
+        const meta = document.createElement("p");
+        meta.className = "blog-meta";
+        meta.textContent = `${post.dateLabel || "Undated"} · ${post.readTime || 1} min read`;
+
+        const excerpt = document.createElement("p");
+        excerpt.className = "blog-excerpt";
+        excerpt.textContent = post.excerpt;
+
+        article.append(title, meta, excerpt);
+
+        if (post.tags.length > 0) {
+            const tags = document.createElement("div");
+            tags.className = "blog-tags";
+
+            post.tags.forEach((tagText) => {
+                const tag = document.createElement("span");
+                tag.className = "blog-tag";
+                tag.textContent = tagText;
+                tags.append(tag);
+            });
+
+            article.append(tags);
+        }
+
+        const readLink = document.createElement("a");
+        readLink.className = "button button-primary blog-card-link";
+        readLink.href = post.url;
+        readLink.textContent = "Read Post";
+
+        article.append(readLink);
+
+        return article;
+    }
+
+    async function loadBlogPosts() {
+        if (!blogGrid) {
+            return;
+        }
+
+        try {
+            const response = await fetch(blogManifestPath);
+            if (!response.ok) {
+                throw new Error("missing manifest");
+            }
+
+            const manifest = await response.json();
+            const posts = Array.isArray(manifest) ? manifest : [];
+
+            blogGrid.textContent = "";
+
+            if (posts.length === 0) {
+                const empty = document.createElement("p");
+                empty.className = "blog-empty";
+                empty.textContent = "No blog posts yet.";
+                blogGrid.append(empty);
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            posts.forEach((post) => {
+                fragment.append(createBlogCard(post));
+            });
+
+            blogGrid.append(fragment);
+        } catch {
+            blogGrid.textContent = "";
+            const error = document.createElement("p");
+            error.className = "blog-error";
+            error.textContent = "Run uv run python scripts/build_blog.py to build blog HTML files.";
+            blogGrid.append(error);
+        }
+    }
+
+    loadBlogPosts();
 
     const canvas = document.getElementById("skin-viewer");
     const status = document.getElementById("viewer-status");
